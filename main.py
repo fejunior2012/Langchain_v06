@@ -1,3 +1,14 @@
+# python.exe -m pip install --upgrade pip
+# pip install pandas streamlit langchain langchain-community langchain-openai faiss-cpu transformers python-dotenv pypdf
+# pip install --upgrade --force-reinstall cryptography
+# pip install --upgrade --force-reinstall pypdf
+# pip install torch ou com GPU pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+
+
+
+
+
 import os
 import pandas as pd
 import streamlit as st
@@ -51,16 +62,9 @@ if criar_bd:
     
     db.save_local(db_path)  # Salva o banco de dados localmente
     print(f"Banco de dados criado e salvo em {db_path}")
-else:
-    # Caso contrário, carrega o banco de dados FAISS existente
-    # Carregando o banco de dados FAISS, permitindo deserialização "perigosa" se for seguro
-    try:
-        db = FAISS.load_local(db_path, embeddings, allow_dangerous_deserialization=True)
-        print(f"Banco de dados carregado de {db_path}")
-    except Exception as e:
-        print(f"Erro ao carregar o banco de dados: {str(e)}")
 
-    print(f"Banco de dados carregado de {db_path}")
+
+    # print(f"Banco de dados carregado de {db_path}")
 
 # Criando o contexto para a pergunta
 contexto = """
@@ -71,6 +75,15 @@ Use esse contexto para responder às perguntas de forma clara, precisa e direta.
 
 # Faz a pesquisa semântica
 def generate_response(query):
+
+    # Caso contrário, carrega o banco de dados FAISS existente
+    # Carregando o banco de dados FAISS, permitindo deserialização "perigosa" se for seguro
+    try:
+        db = FAISS.load_local(db_path, embeddings, allow_dangerous_deserialization=True)
+        print(f"Banco de dados carregado de {db_path}")
+    except Exception as e:
+        print(f"Erro ao carregar o banco de dados: {str(e)}")
+
     docs = db.similarity_search(query, k=5) 
 
     # Verifica se há documentos retornados antes de continuar
