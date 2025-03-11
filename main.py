@@ -16,7 +16,6 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 load_dotenv()
 
 # Definindo se vai criar o banco de dados (True) ou usar um existente (False)
-# Precisa alterar para True pelo menos uma vez
 criar_bd = False  # Mude para False quando quiser usar o banco existente
 
 # Caminho do banco de dados
@@ -106,5 +105,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# Execute streamlit run main.py
