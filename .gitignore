@@ -1,0 +1,8 @@
+.env
+*.exe
+*.sqlite3
+.venv/
+__pycache__/
+chroma/
+build/
+dist/
