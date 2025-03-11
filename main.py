@@ -3,11 +3,13 @@ import pandas as pd
 from langchain_community.document_loaders import PyPDFLoader
 from transformers import GPT2TokenizerFast
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.chains.question_answering import load_qa_chain
 from langchain_community.llms import OpenAI
 from dotenv import load_dotenv
+
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 
 # Carrega a chave OpenAI
 load_dotenv()
