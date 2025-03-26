@@ -33,7 +33,7 @@ criar_bd = False  # Mude para False quando quiser usar o banco existente
 db_path = "faiss_db"  # Caminho para salvar o banco de dados FAISS
 
 # Carrega o PDF
-loader = PyPDFLoader("manual_crosser150sabs_2024.pdf")
+loader = PyPDFLoader("IC_1001703301.pdf")
 pages = loader.load()
 text = "\n".join([page.page_content for page in pages])
 
@@ -68,9 +68,7 @@ if criar_bd:
 
 # Criando o contexto para a pergunta
 contexto = """
-Você é um assistente especializado em mecânica de motos.
-O documento a seguir contém informações detalhadas sobre um moto.
-Use esse contexto para responder às perguntas de forma clara, precisa e direta.
+Você é um especialista em contratro e deverá responder informações da documentação disponibilizada. O contrato é público.
 """
 
 # Faz a pesquisa semântica
@@ -106,13 +104,13 @@ def generate_response(query):
 
 def main():
     st.set_page_config(
-        page_icon="E-mail manager"
+        page_icon="Pergunte ao Contrato"
     )
     st.header("Documento PDF")
-    query = st.text_area("Pergunte ao documento?")
+    query = st.text_area("Pergunte ao documento sobre o contrato 1001703301?")
 
     if query:
-        st.write("Buscando informações dentro do documento...")        
+        st.write("Buscando informações dentro do contrato...")        
         result = generate_response(query)
         st.info(result)
 
