@@ -33,12 +33,13 @@ criar_bd = False  # Mude para False quando quiser usar o banco existente
 db_path = "faiss_db"  # Caminho para salvar o banco de dados FAISS
 
 # Carrega o PDF
+# loader = PyPDFLoader("IC_1001591201.pdf")
 loader = PyPDFLoader("IC_1001703301.pdf")
 pages = loader.load()
 text = "\n".join([page.page_content for page in pages])
 
 # Tokenização
-tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
+tokenizer = GPT2TokenizerFast.from_pretrained("openai-gpt")
 
 def count_tokens(text: str) -> int:
     return len(tokenizer.encode(text))
@@ -82,14 +83,18 @@ def generate_response(query):
     except Exception as e:
         print(f"Erro ao carregar o banco de dados: {str(e)}")
 
-    docs = db.similarity_search(query, k=5) 
+    docs = db.similarity_search(query, k=3) 
 
     # Verifica se há documentos retornados antes de continuar
     if docs:
         print(f"Documento mais relevante:\n{docs[0]}")
 
         # Carrega a chain e executa a resposta
-        chain = load_qa_chain(OpenAI(temperature=0), chain_type="stuff")
+        # "stuff" → Quando os documentos são curtos e cabem no contexto do modelo. ⚡ (Rápido)
+        # "map_reduce" → Quando há muitos documentos ou textos longos. 📖
+        # "refine" → Quando precisa de respostas bem elaboradas e coerentes. 🔍
+        # "map_rerank" → Quando precisa encontrar a resposta mais relevante entre várias. 🎯        
+        chain = load_qa_chain(OpenAI(temperature=0), chain_type="refine")
             # Invocando a chain com contexto
         
         response = chain.invoke({
@@ -107,7 +112,7 @@ def main():
         page_icon="Pergunte ao Contrato"
     )
     st.header("Documento PDF")
-    query = st.text_area("Pergunte ao documento sobre o contrato 1001703301?")
+    query = st.text_area("Pergunte ao documento sobre o contrato?")
 
     if query:
         st.write("Buscando informações dentro do contrato...")        
