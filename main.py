@@ -1,14 +1,3 @@
-# python.exe -m pip install --upgrade pip
-# pip install pandas streamlit langchain langchain-community langchain-openai faiss-cpu transformers python-dotenv pypdf
-# pip install --upgrade --force-reinstall cryptography
-# pip install --upgrade --force-reinstall pypdf
-# pip install torch ou com GPU pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-
-
-
-
-
-
 import os
 import pandas as pd
 import streamlit as st
@@ -34,7 +23,7 @@ db_path = "faiss_db"  # Caminho para salvar o banco de dados FAISS
 
 # Carrega o PDF
 # loader = PyPDFLoader("IC_1001591201.pdf")
-loader = PyPDFLoader("IC_1001703301.pdf")
+loader = PyPDFLoader("manual_crosser150sabs_2024.pdf")
 pages = loader.load()
 text = "\n".join([page.page_content for page in pages])
 
@@ -88,12 +77,7 @@ def generate_response(query):
     # Verifica se há documentos retornados antes de continuar
     if docs:
         print(f"Documento mais relevante:\n{docs[0]}")
-
-        # Carrega a chain e executa a resposta
-        # "stuff" → Quando os documentos são curtos e cabem no contexto do modelo. ⚡ (Rápido)
-        # "map_reduce" → Quando há muitos documentos ou textos longos. 📖
-        # "refine" → Quando precisa de respostas bem elaboradas e coerentes. 🔍
-        # "map_rerank" → Quando precisa encontrar a resposta mais relevante entre várias. 🎯        
+   
         chain = load_qa_chain(OpenAI(temperature=0), chain_type="refine")
             # Invocando a chain com contexto
         
@@ -121,3 +105,21 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    # python.exe -m pip install --upgrade pip
+# pip install pandas streamlit langchain langchain-community langchain-openai faiss-cpu transformers python-dotenv pypdf
+# pip install --upgrade --force-reinstall cryptography
+# pip install --upgrade --force-reinstall pypdf
+# pip install torch ou com GPU pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+
+
+
+
+
+
+# Carrega a chain e executa a resposta
+# "stuff" → Quando os documentos são curtos e cabem no contexto do modelo. ⚡ (Rápido)
+# "map_reduce" → Quando há muitos documentos ou textos longos. 📖
+# "refine" → Quando precisa de respostas bem elaboradas e coerentes. 🔍
+# "map_rerank" → Quando precisa encontrar a resposta mais relevante entre várias. 🎯     
